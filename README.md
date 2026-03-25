@@ -1,6 +1,10 @@
 # Adaptive Load Balancer Simulation
 
-A client-side load balancer simulation in Python that routes traffic intelligently based on real-time server latency. Demonstrates the **Explore/Exploit** strategy (a multi-armed bandit approach) combined with **Exponential Moving Average (EMA)** latency tracking.
+> Built from scratch to understand how real load balancers think — not just round-robin, but adaptive routing that learns which servers are fast and keeps checking if that's still true.
+
+A client-side load balancer simulation in Python that routes traffic intelligently based on real-time server latency. Uses an **ε-greedy explore/exploit strategy** (borrowed from reinforcement learning) and **Exponential Moving Average (EMA)** to continuously learn and adapt to changing server conditions — without any external libraries or frameworks beyond FastAPI and httpx.
+
+**Skills demonstrated:** async Python, distributed systems concepts, algorithmic decision-making, system simulation
 
 ---
 
