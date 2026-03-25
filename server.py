@@ -2,9 +2,8 @@
 
 import random
 import asyncio
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
-
-app = FastAPI()
 
 # Initialize a global latency variable (in milliseconds).
 # This simulates how "slow" or "fast" the server responds.
@@ -25,17 +24,18 @@ async def update_latency_task():
             jitter = random.randint(-20, 20)
             latency_ms = max(10, latency_ms + jitter)
         else:  # Occasionally, make a big change.
-            latency_ms = random.randint(50, 500)
+            latency_ms = random.randint(50, 2000)
         print(f"⚡ Latency updated to {latency_ms} ms")
 
 
-@app.on_event("startup")
-async def startup_event():
-    """
-    When the FastAPI server starts, launch the background latency updater.
-    This keeps the latency changing while the server is running.
-    """
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Launch the background latency updater when the server starts."""
     asyncio.create_task(update_latency_task())
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/ping")

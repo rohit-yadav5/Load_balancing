@@ -1,4 +1,4 @@
-# load_balancer.py
+# load_balancer_v2.py
 
 import asyncio
 import random
@@ -86,7 +86,7 @@ async def traffic_generator():
                 chosen_servers.append(server)
                 tasks.append(send_request(client, server))
 
-            results = await asyncio.gather(*tasks)
+            await asyncio.gather(*tasks)
 
             # Count how many requests went to each server
             counts = Counter(chosen_servers)
